@@ -46,12 +46,22 @@ void test_writeTurnAroundIO()
 
 void test_readBit_given_xxx_should_xxx()
 {
-  int dataRead;
+  int dataRead, data;
   setPinHigh_Expect(CLK_PIN);
   setPinLow_Expect(CLK_PIN);
   readPin_ExpectAndReturn(IO_PIN, dataRead);
   
-  readBit(IO_PIN);
+  data = readBit(IO_PIN);
+}
+
+// void test_readBit_given_xxx_should_xxx()
+// {
+  // int dataRead, data;
+  // setPinHigh_Expect(CLK_PIN);
+  // setPinLow_Expect(CLK_PIN);
+  // readPin_ExpectAndReturn(IO_PIN, dataRead);
+  
+  // data = readBit(IO_PIN);
 }
 
 void test_writeData_given_0xCD_and_addr_0xDEAD_and_data_0xC0_should_sent_out_0xCDDEADC0()

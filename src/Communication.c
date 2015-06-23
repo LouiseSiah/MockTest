@@ -161,4 +161,12 @@ uint8_t readData(uint8_t cmd, uint16_t address)
   }
   
   readTurnAroundIO(IO_PIN);
+  int extDev = 0;
+  
+  for(i = 0; i<16; i++)
+  {
+    extDev = extDev + readBit<< i;
+  }
+  
+  return extDev;
 }
