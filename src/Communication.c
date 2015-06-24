@@ -120,8 +120,8 @@ void writeData(uint8_t cmd, uint16_t address, uint8_t data)
 
 uint8_t readData(uint8_t cmd, uint16_t address)
 {
-  int bit, i;
-  
+  int bit, i, extDev = 0;
+ 
   writeTurnAroundIO(IO_PIN);
   
   for(i = 0; i<8; i++)
@@ -161,11 +161,11 @@ uint8_t readData(uint8_t cmd, uint16_t address)
   }
   
   readTurnAroundIO(IO_PIN);
-  int extDev = 0;
   
-  for(i = 0; i<16; i++)
+  for(i = 0; i<8; i++)
   {
-    extDev = extDev + readBit<< i;
+    extDev += (readBit(IO_PIN)<< i);
+    printf("extDev = %x\n", extDev);
   }
   
   return extDev;

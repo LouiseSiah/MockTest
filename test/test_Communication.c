@@ -46,23 +46,14 @@ void test_writeTurnAroundIO()
 
 void test_readBit_given_xxx_should_xxx()
 {
-  int dataRead, data;
+  int dataRead = 0;
   setPinHigh_Expect(CLK_PIN);
   setPinLow_Expect(CLK_PIN);
   readPin_ExpectAndReturn(IO_PIN, dataRead);
   
-  data = readBit(IO_PIN);
+  TEST_ASSERT_EQUAL(dataRead,readBit(IO_PIN));
 }
 
-// void test_readBit_given_xxx_should_xxx()
-// {
-  // int dataRead, data;
-  // setPinHigh_Expect(CLK_PIN);
-  // setPinLow_Expect(CLK_PIN);
-  // readPin_ExpectAndReturn(IO_PIN, dataRead);
-  
-  // data = readBit(IO_PIN);
-}
 
 void test_writeData_given_0xCD_and_addr_0xDEAD_and_data_0xC0_should_sent_out_0xCDDEADC0()
 {
@@ -155,11 +146,9 @@ void test_writeData_given_0xCD_and_addr_0xDEAD_and_data_0xC0_should_sent_out_0xC
 
 void test_readData_given_0xCDAB_and_addr_0xFACE_should_sent_0xABFACE_and_turnaround_and_receive_0xBE()
 {
-  int i, bit;
+  int i, bit, dataRead = 0xBE, dataReadTemp = dataRead;
   uint8_t cmd = 0xAB, 
           cmdTemp = cmd;
-          // data = 0xBE,
-          // dataTemp = data;
   uint16_t address = 0xFACE,
            addressTemp = address;
            
@@ -219,5 +208,18 @@ void test_readData_given_0xCDAB_and_addr_0xFACE_should_sent_0xABFACE_and_turnaro
   setPinLow_Expect(CLK_PIN);
   setPinHigh_Expect(CLK_PIN);
   //readTurnAroundIO(IO_PIN);  
-  readData(cmd, address);
+  
+  for(i = 0; i<8; i++)
+  {
+    bit = dataReadTemp & 1;
+    setPinHigh_Expect(CLK_PIN);
+    setPinLow_Expect(CLK_PIN);
+    readPin_ExpectAndReturn(IO_PIN, bit); 
+    dataReadTemp = dataReadTemp >>1;
+  }
+  
+  dataRead = 0; 
+  dataRead = readData(cmd, address); //jia jia de read
+  TEST_ASSERT_EQUAL(0xBE,dataRead);
+  printf("success\n");
 }
