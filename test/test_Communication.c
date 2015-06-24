@@ -211,6 +211,7 @@ void test_readData_given_0xCDAB_and_addr_0xFACE_should_sent_0xABFACE_and_turnaro
   
   for(i = 0; i<8; i++)
   {
+    //readBit
     bit = dataReadTemp & 1;
     setPinHigh_Expect(CLK_PIN);
     setPinLow_Expect(CLK_PIN);
